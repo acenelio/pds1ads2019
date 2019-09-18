@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.educandoweb.course.entities.pk.OrderItemPK;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_order_item")
@@ -31,7 +30,6 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 
-	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
