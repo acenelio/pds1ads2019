@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.educandoweb.course.dto.CategoryDTO;
 import com.educandoweb.course.entities.Category;
@@ -50,6 +51,7 @@ public class CategoryService {
 		}
 	}
 	
+	@Transactional
 	public CategoryDTO update(Long id, CategoryDTO dto) {
 		try {
 			Category entity = repository.getOne(id);
