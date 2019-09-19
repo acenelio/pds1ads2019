@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.educandoweb.course.entities.User;
+import com.educandoweb.course.services.validation.UserInsertValid;
 
+@UserInsertValid
 public class UserInsertDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
