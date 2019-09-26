@@ -13,12 +13,14 @@ import com.educandoweb.course.entities.Order;
 import com.educandoweb.course.entities.OrderItem;
 import com.educandoweb.course.entities.Payment;
 import com.educandoweb.course.entities.Product;
+import com.educandoweb.course.entities.Role;
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.entities.enums.OrderStatus;
 import com.educandoweb.course.repositories.CategoryRepository;
 import com.educandoweb.course.repositories.OrderItemRepository;
 import com.educandoweb.course.repositories.OrderRepository;
 import com.educandoweb.course.repositories.ProductRepository;
+import com.educandoweb.course.repositories.RoleRepository;
 import com.educandoweb.course.repositories.UserRepository;
 
 @Configuration
@@ -39,6 +41,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -67,12 +72,24 @@ public class TestConfig implements CommandLineRunner {
 		
 		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
 		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
+
+		userRepository.saveAll(Arrays.asList(u1, u2));
+		
+		Role r1 = new Role(null, "ROLE_CLIENT");
+		Role r2 = new Role(null, "ROLE_ADMIN");
+		
+		roleRepository.saveAll(Arrays.asList(r1, r2));
+		
+		u1.getRoles().add(r1);
+		u2.getRoles().add(r1);
+		u2.getRoles().add(r2);
+
+		userRepository.saveAll(Arrays.asList(u1, u2));
 		
 		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT, u2);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT, u1);
 		
-		userRepository.saveAll(Arrays.asList(u1, u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 		
 		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
