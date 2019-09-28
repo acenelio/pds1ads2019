@@ -89,5 +89,12 @@ public class ProductService {
 		if (dto.getCategories() != null && dto.getCategories().size() > 0) {
 			setProductCategories(entity, dto.getCategories());
 		}
+	}
+
+	@Transactional(readOnly = true)
+	public Page<ProductDTO> findByCategoryPaged(Long categoryId, Pageable pageable) {
+		Category category = categoryRepository.getOne(categoryId);
+		Page<Product> products = repository.findByCategory(category, pageable);
+		return products.map(e -> new ProductDTO(e));
 	}	
 }
