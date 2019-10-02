@@ -97,4 +97,27 @@ public class ProductService {
 		Page<Product> products = repository.findByCategory(category, pageable);
 		return products.map(e -> new ProductDTO(e));
 	}	
+	
+	@Transactional
+	public void addCategory(Long id, CategoryDTO dto) {
+		Product product = repository.getOne(id);
+		Category category = categoryRepository.getOne(dto.getId());
+		product.getCategories().add(category);
+		repository.save(product);
+	}
+
+	@Transactional
+	public void removeCategory(Long id, CategoryDTO dto) {
+		Product product = repository.getOne(id);
+		Category category = categoryRepository.getOne(dto.getId());
+		product.getCategories().remove(category);
+		repository.save(product);
+	}
+	
+	@Transactional
+	public void setCategories(Long id, List<CategoryDTO> dto) {
+		Product product = repository.getOne(id);
+		setProductCategories(product, dto);
+		repository.save(product);
+	}
 }
